@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ChevronDown, Calendar, Bell, ChevronRight, BarChart2, Users, ChevronLeft } from 'lucide-react';
+import { BotMessageSquare, Calendar, Bell, ChevronRight, BarChart2, Users, ChevronLeft } from 'lucide-react';
+import { Radio } from 'antd';
 
 import DoctorLogo from './assets/doctor.png';
 import Logo from './assets/logo.png';
@@ -29,23 +30,24 @@ const App = () => {
   // Basic info state
   const [basicInfo, setBasicInfo] = useState({
     name: '',
-    gender: '',
+    gender: 'male',
     phone: '',
     birthday: '',
-    visitType: ''
+    visitType: 'first',
+    age: 'young'
   });
   
   // Medical inquiry state
   const [medicalInquiry, setMedicalInquiry] = useState({
     onsetDate: '',
-    medication: '',
+    medication: 'no',
     medicationName: '',
-    hasExamReport: '',
+    hasExamReport: 'no',
     affectedEye: 'both',
     leftEyeSymptoms: {
       painLocation: [],
-      painDegree: '',
-      painNature: [],
+      painDegree: '轻度',
+      painNature: '刺痛',
       isRed: false,
       isDry: false,
       isSwollen: false,
@@ -55,8 +57,8 @@ const App = () => {
     },
     rightEyeSymptoms: {
       painLocation: [],
-      painDegree: '',
-      painNature: [],
+      painDegree: '轻度',
+      painNature: '刺痛',
       isRed: false,
       isDry: false,
       isSwollen: false,
@@ -237,30 +239,16 @@ const App = () => {
                   
                   <div>
                     <label className="block text-gray-700 mb-2">性别</label>
-                    <div className="flex space-x-4">
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="gender" 
-                          value="male"
-                          checked={basicInfo.gender === 'male'}
-                          onChange={() => setBasicInfo({...basicInfo, gender: 'male'})}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">男</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="gender" 
-                          value="female"
-                          checked={basicInfo.gender === 'female'}
-                          onChange={() => setBasicInfo({...basicInfo, gender: 'female'})}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">女</span>
-                      </label>
-                    </div>
+                    <Radio.Group
+                      value={basicInfo.gender}
+                      onChange={(e) => setBasicInfo({...basicInfo, gender: e.target.value})}
+                      className="flex items-center h-[42px]"
+                      optionType="button"
+buttonStyle="solid"
+                    >
+                      <Radio value="male">男</Radio>
+                      <Radio value="female">女</Radio>
+                    </Radio.Group>
                   </div>
                   
                   <div>
@@ -288,52 +276,46 @@ const App = () => {
                     </div>
                   </div>
                   
+                  <div>
+                    <label className="block text-gray-700 mb-2">年龄</label>
+                    <Radio.Group
+                      value={basicInfo.age}
+                      onChange={(e) => setBasicInfo({...basicInfo, age: e.target.value})}
+                      className="flex items-center h-[42px]"
+                      optionType="button"
+buttonStyle="solid"
+                    >
+                      <Radio value="young">18岁以下</Radio>
+                      <Radio value="adult">18-60岁</Radio>
+                      <Radio value="elder">60岁以上</Radio>
+                    </Radio.Group>
+                  </div>
+                  
                   <div className="col-span-2">
                     <label className="block text-gray-700 mb-2">就诊类型</label>
-                    <div className="flex space-x-4">
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="visitType" 
-                          value="initial"
-                          checked={basicInfo.visitType === 'initial'}
-                          onChange={() => setBasicInfo({...basicInfo, visitType: 'initial'})}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">初诊</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="visitType" 
-                          value="followUp"
-                          checked={basicInfo.visitType === 'followUp'}
-                          onChange={() => setBasicInfo({...basicInfo, visitType: 'followUp'})}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">复诊</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="visitType" 
-                          value="optometry"
-                          checked={basicInfo.visitType === 'optometry'}
-                          onChange={() => setBasicInfo({...basicInfo, visitType: 'optometry'})}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">视光</span>
-                      </label>
-                    </div>
+                    <Radio.Group
+                      value={basicInfo.visitType}
+                      onChange={(e) => setBasicInfo({...basicInfo, visitType: e.target.value})}
+                      className="flex items-center h-[42px]"
+                      optionType="button"
+buttonStyle="solid"
+                    >
+                      <Radio value="first">初诊</Radio>
+                      <Radio value="follow">复诊</Radio>
+                      <Radio value="consultation">会诊</Radio>
+                    </Radio.Group>
                   </div>
                 </div>
               </div>
-              <div className="mt-6 flex justify-end">
+              <div className="mt-2 flex justify-end">
                 <button 
                   onClick={handleNextStep}
                   className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                 >
-                  下一步
+                  <div className="flex items-center">
+                    下一步
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </div>
                 </button>
               </div>
             </section>
@@ -364,30 +346,16 @@ const App = () => {
                     
                     <div>
                       <label className="block text-gray-700 mb-2">是否用药</label>
-                      <div className="flex space-x-4">
-                        <label className="inline-flex items-center">
-                          <input 
-                            type="radio" 
-                            name="medication" 
-                            value="yes"
-                            checked={medicalInquiry.medication === 'yes'}
-                            onChange={() => setMedicalInquiry({...medicalInquiry, medication: 'yes'})}
-                            className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                          />
-                          <span className="ml-2">是</span>
-                        </label>
-                        <label className="inline-flex items-center">
-                          <input 
-                            type="radio" 
-                            name="medication" 
-                            value="no"
-                            checked={medicalInquiry.medication === 'no'}
-                            onChange={() => setMedicalInquiry({...medicalInquiry, medication: 'no'})}
-                            className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                          />
-                          <span className="ml-2">否</span>
-                        </label>
-                      </div>
+                      <Radio.Group
+                        value={medicalInquiry.medication}
+                        onChange={(e) => setMedicalInquiry({...medicalInquiry, medication: e.target.value})}
+                        className="flex items-center h-[42px]"
+                        optionType="button"
+                        buttonStyle="solid"
+                      >
+                        <Radio value="yes">是</Radio>
+                        <Radio value="no">否</Radio>
+                      </Radio.Group>
                     </div>
                     
                     {medicalInquiry.medication === 'yes' && (
@@ -404,30 +372,16 @@ const App = () => {
                     
                     <div>
                       <label className="block text-gray-700 mb-2">是否有检查单</label>
-                      <div className="flex space-x-4">
-                        <label className="inline-flex items-center">
-                          <input 
-                            type="radio" 
-                            name="hasExamReport" 
-                            value="yes"
-                            checked={medicalInquiry.hasExamReport === 'yes'}
-                            onChange={() => setMedicalInquiry({...medicalInquiry, hasExamReport: 'yes'})}
-                            className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                          />
-                          <span className="ml-2">是</span>
-                        </label>
-                        <label className="inline-flex items-center">
-                          <input 
-                            type="radio" 
-                            name="hasExamReport" 
-                            value="no"
-                            checked={medicalInquiry.hasExamReport === 'no'}
-                            onChange={() => setMedicalInquiry({...medicalInquiry, hasExamReport: 'no'})}
-                            className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                          />
-                          <span className="ml-2">否</span>
-                        </label>
-                      </div>
+                      <Radio.Group
+                        value={medicalInquiry.hasExamReport}
+                        onChange={(e) => setMedicalInquiry({...medicalInquiry, hasExamReport: e.target.value})}
+                        className="flex items-center h-[42px]"
+                        optionType="button"
+buttonStyle="solid"
+                      >
+                        <Radio value="yes">是</Radio>
+                        <Radio value="no">否</Radio>
+                      </Radio.Group>
                     </div>
                   </div>
                 </div>
@@ -438,41 +392,17 @@ const App = () => {
                   
                   <div className="mb-4">
                     <label className="block text-gray-700 mb-2">请选择受影响的眼部</label>
-                    <div className="flex space-x-4">
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="affectedEye" 
-                          value="both"
-                          checked={medicalInquiry.affectedEye === 'both'}
-                          onChange={() => handleAffectedEyeChange('both')}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">双眼</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="affectedEye" 
-                          value="left"
-                          checked={medicalInquiry.affectedEye === 'left'}
-                          onChange={() => handleAffectedEyeChange('left')}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">左眼</span>
-                      </label>
-                      <label className="inline-flex items-center">
-                        <input 
-                          type="radio" 
-                          name="affectedEye" 
-                          value="right"
-                          checked={medicalInquiry.affectedEye === 'right'}
-                          onChange={() => handleAffectedEyeChange('right')}
-                          className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                        />
-                        <span className="ml-2">右眼</span>
-                      </label>
-                    </div>
+                    <Radio.Group
+                      value={medicalInquiry.affectedEye}
+                      onChange={(e) => handleAffectedEyeChange(e.target.value)}
+                      className="flex items-center h-[42px]"
+                      optionType="button"
+buttonStyle="solid"
+                    >
+                      <Radio value="both">双眼</Radio>
+                      <Radio value="left">左眼</Radio>
+                      <Radio value="right">右眼</Radio>
+                    </Radio.Group>
                   </div>
                   
                   <div className={`grid ${medicalInquiry.affectedEye === 'both' ? 'grid-cols-2 gap-6' : 'grid-cols-1'}`}>
@@ -513,234 +443,122 @@ const App = () => {
                         <div className="mb-3">
                           <label className="block text-gray-700 mb-2">疼痛程度</label>
                           <div className="flex space-x-4">
-                            {['轻度', '中度', '重度'].map((degree) => (
-                              <label key={degree} className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyePainDegree" 
-                                  value={degree}
-                                  checked={medicalInquiry.leftEyeSymptoms.painDegree === degree}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        painDegree: degree
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">{degree}</span>
-                              </label>
-                            ))}
+                            <Radio.Group
+                              value={medicalInquiry.leftEyeSymptoms.painDegree}
+                              onChange={(e) => setMedicalInquiry({...medicalInquiry, leftEyeSymptoms: {...medicalInquiry.leftEyeSymptoms, painDegree: e.target.value}})}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              {['轻度', '中度', '重度'].map((degree) => (
+                                <Radio value={degree} key={degree}>{degree}</Radio>
+                              ))}
+                            </Radio.Group>
                           </div>
                         </div>
                         
                         <div className="mb-3">
                           <label className="block text-gray-700 mb-2">疼痛性质</label>
-                          <div className="grid grid-cols-2 gap-2">
+                          <Radio.Group
+                            value={medicalInquiry.leftEyeSymptoms.painNature}
+                            onChange={(e) => setMedicalInquiry({...medicalInquiry, leftEyeSymptoms: {...medicalInquiry.leftEyeSymptoms, painNature: e.target.value}})}
+                            className="flex items-center h-[42px]"
+                            optionType="button"
+                            buttonStyle="solid"
+                          >
                             {['刺痛', '触痛', '胀痛', '灼痛', '疼痛'].map((nature) => (
-                              <label key={nature} className="flex items-center">
-                                <input 
-                                  type="checkbox" 
-                                  checked={medicalInquiry.leftEyeSymptoms.painNature.includes(nature)}
-                                  onChange={(e) => {
-                                    const updatedNatures = e.target.checked 
-                                      ? [...medicalInquiry.leftEyeSymptoms.painNature, nature]
-                                      : medicalInquiry.leftEyeSymptoms.painNature.filter(n => n !== nature);
-                                    
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        painNature: updatedNatures
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2 text-sm">{nature}</span>
-                              </label>
+                              <Radio value={nature} key={nature}>{nature}</Radio>
                             ))}
-                          </div>
+                          </Radio.Group>
                         </div>
                         
                         <div className="grid grid-cols-2 gap-4 mb-3">
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼红</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeRed" 
-                                  value="yes"
-                                  checked={medicalInquiry.leftEyeSymptoms.isRed}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        isRed: true
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeRed" 
-                                  value="no"
-                                  checked={!medicalInquiry.leftEyeSymptoms.isRed}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        isRed: false
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.leftEyeSymptoms.isRed ? 'yes' : 'no'}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  leftEyeSymptoms: {
+                                    ...medicalInquiry.leftEyeSymptoms,
+                                    isRed: e.target.value === 'yes'
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+buttonStyle="solid"
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼干</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeDry" 
-                                  value="yes"
-                                  checked={medicalInquiry.leftEyeSymptoms.isDry}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        isDry: true
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeDry" 
-                                  value="no"
-                                  checked={!medicalInquiry.leftEyeSymptoms.isDry}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        isDry: false
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.leftEyeSymptoms.isDry ? 'yes' : 'no'}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  leftEyeSymptoms: {
+                                    ...medicalInquiry.leftEyeSymptoms,
+                                    isDry: e.target.value === 'yes'
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼胀</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeSwollen" 
-                                  value="yes"
-                                  checked={medicalInquiry.leftEyeSymptoms.isSwollen}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        isSwollen: true
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeSwollen" 
-                                  value="no"
-                                  checked={!medicalInquiry.leftEyeSymptoms.isSwollen}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        isSwollen: false
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.leftEyeSymptoms.isSwollen ? 'yes' : 'no'}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  leftEyeSymptoms: {
+                                    ...medicalInquiry.leftEyeSymptoms,
+                                    isSwollen: e.target.value === 'yes'
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group> 
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">视力情况</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeVision" 
-                                  value="normal"
-                                  checked={medicalInquiry.leftEyeSymptoms.visionStatus === 'normal'}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        visionStatus: 'normal'
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">视力正常</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeVision" 
-                                  value="declined"
-                                  checked={medicalInquiry.leftEyeSymptoms.visionStatus === 'declined'}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      leftEyeSymptoms: {
-                                        ...medicalInquiry.leftEyeSymptoms,
-                                        visionStatus: 'declined'
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">视力下降</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.leftEyeSymptoms.visionStatus}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  leftEyeSymptoms: {
+                                    ...medicalInquiry.leftEyeSymptoms,
+                                    visionStatus: e.target.value
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              <Radio value="normal">视力正常</Radio>
+                              <Radio value="declined">视力下降</Radio>
+                            </Radio.Group>
                           </div>
                         </div>
                         
@@ -822,234 +640,142 @@ const App = () => {
                         <div className="mb-3">
                           <label className="block text-gray-700 mb-2">疼痛程度</label>
                           <div className="flex space-x-4">
-                            {['轻度', '中度', '重度'].map((degree) => (
-                              <label key={degree} className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyePainDegree" 
-                                  value={degree}
-                                  checked={medicalInquiry.rightEyeSymptoms.painDegree === degree}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        painDegree: degree
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">{degree}</span>
-                              </label>
-                            ))}
+                            <Radio.Group
+                              value={medicalInquiry.rightEyeSymptoms.painDegree}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  rightEyeSymptoms: {
+                                    ...medicalInquiry.rightEyeSymptoms,
+                                    painDegree: e.target.value
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              {['轻度', '中度', '重度'].map((degree) => (
+                                <Radio value={degree} key={degree}>{degree}</Radio>
+                              ))}
+                            </Radio.Group>
                           </div>
                         </div>
                         
                         <div className="mb-3">
                           <label className="block text-gray-700 mb-2">疼痛性质</label>
                           <div className="grid grid-cols-2 gap-2">
-                            {['刺痛', '触痛', '胀痛', '灼痛', '疼痛'].map((nature) => (
-                              <label key={nature} className="flex items-center">
-                                <input 
-                                  type="checkbox" 
-                                  checked={medicalInquiry.rightEyeSymptoms.painNature.includes(nature)}
-                                  onChange={(e) => {
-                                    const updatedNatures = e.target.checked 
-                                      ? [...medicalInquiry.rightEyeSymptoms.painNature, nature]
-                                      : medicalInquiry.rightEyeSymptoms.painNature.filter(n => n !== nature);
-                                    
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        painNature: updatedNatures
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2 text-sm">{nature}</span>
-                              </label>
-                            ))}
+                            <Radio.Group
+                              value={medicalInquiry.rightEyeSymptoms.painNature}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  rightEyeSymptoms: {
+                                    ...medicalInquiry.rightEyeSymptoms,
+                                    painNature: e.target.value
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              {
+                                ['刺痛', '触痛', '胀痛', '灼痛', '疼痛'].map((nature) => (
+                                  <Radio value={nature} key={nature}>{nature}</Radio>
+                                ))
+                              }
+                            </Radio.Group>
                           </div>
                         </div>
                         
                         <div className="grid grid-cols-2 gap-4 mb-3">
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼红</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeRed" 
-                                  value="yes"
-                                  checked={medicalInquiry.rightEyeSymptoms.isRed}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        isRed: true
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeRed" 
-                                  value="no"
-                                  checked={!medicalInquiry.rightEyeSymptoms.isRed}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        isRed: false
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.rightEyeSymptoms.isRed ? 'yes' : 'no'}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  rightEyeSymptoms: {
+                                    ...medicalInquiry.rightEyeSymptoms,
+                                    isRed: e.target.value === 'yes'
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+buttonStyle="solid"
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼干</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeDry" 
-                                  value="yes"
-                                  checked={medicalInquiry.rightEyeSymptoms.isDry}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        isDry: true
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeDry" 
-                                  value="no"
-                                  checked={!medicalInquiry.rightEyeSymptoms.isDry}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        isDry: false
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.rightEyeSymptoms.isDry ? 'yes' : 'no'}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  rightEyeSymptoms: {
+                                    ...medicalInquiry.rightEyeSymptoms,
+                                    isDry: e.target.value === 'yes'
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼胀</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeSwollen" 
-                                  value="yes"
-                                  checked={medicalInquiry.rightEyeSymptoms.isSwollen}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        isSwollen: true
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeSwollen" 
-                                  value="no"
-                                  checked={!medicalInquiry.rightEyeSymptoms.isSwollen}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        isSwollen: false
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.rightEyeSymptoms.isSwollen ? 'yes' : 'no'}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  rightEyeSymptoms: {
+                                    ...medicalInquiry.rightEyeSymptoms,
+                                    isSwollen: e.target.value === 'yes'
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">视力情况</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeVision" 
-                                  value="normal"
-                                  checked={medicalInquiry.rightEyeSymptoms.visionStatus === 'normal'}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        visionStatus: 'normal'
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">视力正常</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeVision" 
-                                  value="declined"
-                                  checked={medicalInquiry.rightEyeSymptoms.visionStatus === 'declined'}
-                                  onChange={() => {
-                                    setMedicalInquiry({
-                                      ...medicalInquiry, 
-                                      rightEyeSymptoms: {
-                                        ...medicalInquiry.rightEyeSymptoms,
-                                        visionStatus: 'declined'
-                                      }
-                                    });
-                                  }}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">视力下降</span>
-                              </label>
-                            </div>
+                            <Radio.Group
+                              value={medicalInquiry.rightEyeSymptoms.visionStatus}
+                              onChange={(e) => {
+                                setMedicalInquiry({
+                                  ...medicalInquiry, 
+                                  rightEyeSymptoms: {
+                                    ...medicalInquiry.rightEyeSymptoms,
+                                    visionStatus: e.target.value
+                                  }
+                                });
+                              }}
+                              className="flex items-center h-[42px]"
+                              optionType="button"
+                              buttonStyle="solid"
+                            >
+                              <Radio value="normal">视力正常</Radio>
+                              <Radio value="poor">视力较差</Radio>
+                            </Radio.Group>
                           </div>
                         </div>
                         
@@ -1199,76 +925,24 @@ const App = () => {
                       
                       <div className="col-span-2">
                         <label className="block text-gray-700 mb-2">裂隙灯结果</label>
-                        <div className="flex flex-wrap gap-4">
-                          <label className="inline-flex items-center">
-                            <input 
-                              type="radio" 
-                              name="slitLampResult" 
-                              value="leftAbnormal"
-                              checked={medicalInquiry.examData.slitLampResult === 'leftAbnormal'}
-                              onChange={() => setMedicalInquiry({
-                                ...medicalInquiry, 
-                                examData: {
-                                  ...medicalInquiry.examData,
-                                  slitLampResult: 'leftAbnormal'
-                                }
-                              })}
-                              className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                            />
-                            <span className="ml-2">左眼异常</span>
-                          </label>
-                          <label className="inline-flex items-center">
-                            <input 
-                              type="radio" 
-                              name="slitLampResult" 
-                              value="rightAbnormal"
-                              checked={medicalInquiry.examData.slitLampResult === 'rightAbnormal'}
-                              onChange={() => setMedicalInquiry({
-                                ...medicalInquiry, 
-                                examData: {
-                                  ...medicalInquiry.examData,
-                                  slitLampResult: 'rightAbnormal'
-                                }
-                              })}
-                              className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                            />
-                            <span className="ml-2">右眼异常</span>
-                          </label>
-                          <label className="inline-flex items-center">
-                            <input 
-                              type="radio" 
-                              name="slitLampResult" 
-                              value="bothAbnormal"
-                              checked={medicalInquiry.examData.slitLampResult === 'bothAbnormal'}
-                              onChange={() => setMedicalInquiry({
-                                ...medicalInquiry, 
-                                examData: {
-                                  ...medicalInquiry.examData,
-                                  slitLampResult: 'bothAbnormal'
-                                }
-                              })}
-                              className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                            />
-                            <span className="ml-2">双眼异常</span>
-                          </label>
-                          <label className="inline-flex items-center">
-                            <input 
-                              type="radio" 
-                              name="slitLampResult" 
-                              value="bothNormal"
-                              checked={medicalInquiry.examData.slitLampResult === 'bothNormal'}
-                              onChange={() => setMedicalInquiry({
-                                ...medicalInquiry, 
-                                examData: {
-                                  ...medicalInquiry.examData,
-                                  slitLampResult: 'bothNormal'
-                                }
-                              })}
-                              className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                            />
-                            <span className="ml-2">双眼正常</span>
-                          </label>
-                        </div>
+                        <Radio.Group
+                          value={medicalInquiry.examData.slitLampResult}
+                          onChange={(e) => setMedicalInquiry({
+                            ...medicalInquiry, 
+                            examData: {
+                              ...medicalInquiry.examData,
+                              slitLampResult: e.target.value
+                            }
+                          })}
+                          className="flex items-center h-[42px]"
+                          optionType="button"
+buttonStyle="solid"
+                        >
+                          <Radio value="leftAbnormal">左眼异常</Radio>
+                          <Radio value="rightAbnormal">右眼异常</Radio>
+                          <Radio value="bothAbnormal">双眼异常</Radio>
+                          <Radio value="bothNormal">双眼正常</Radio>
+                        </Radio.Group>
                       </div>
                     </div>
                   </div>
@@ -1395,24 +1069,26 @@ const App = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-6 flex justify-between">
-                  <button 
-                    onClick={handlePrevStep}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                  >
-                    <div className="flex items-center">
-                      <ChevronLeft className="h-4 w-4 mr-1" />
-                      上一步
-                    </div>
-                  </button>
-                  <button 
-                    onClick={handleNextStep}
-                    className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                  >
+              <div className="mt-2 flex justify-between">
+                <button 
+                  onClick={handlePrevStep}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                >
+                  <div className="flex items-center">
+                    <ChevronLeft className="h-4 w-4 mr-1" />
+                    上一步
+                  </div>
+                </button>
+                <button 
+                  onClick={handleNextStep}
+                  className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+                >
+                  <div className="flex items-center">
                     下一步
                     <ChevronRight className="h-4 w-4 ml-1" />
-                  </button>
-                </div>
+                  </div>
+                </button>
+              </div>
             </section>
           )}
           
@@ -1423,41 +1099,17 @@ const App = () => {
                 
                 <div className="mb-4">
                   <label className="block text-gray-700 mb-2">请选择受影响的眼部</label>
-                  <div className="flex space-x-4">
-                    <label className="inline-flex items-center">
-                      <input 
-                        type="radio" 
-                        name="complaintAffectedEye" 
-                        value="left"
-                        checked={chiefComplaint.affectedEye === 'left'}
-                        onChange={() => handleComplaintEyeChange('left')}
-                        className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                      />
-                      <span className="ml-2">左眼</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input 
-                        type="radio" 
-                        name="complaintAffectedEye" 
-                        value="right"
-                        checked={chiefComplaint.affectedEye === 'right'}
-                        onChange={() => handleComplaintEyeChange('right')}
-                        className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                      />
-                      <span className="ml-2">右眼</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input 
-                        type="radio" 
-                        name="complaintAffectedEye" 
-                        value="both"
-                        checked={chiefComplaint.affectedEye === 'both'}
-                        onChange={() => handleComplaintEyeChange('both')}
-                        className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                      />
-                      <span className="ml-2">双眼</span>
-                    </label>
-                  </div>
+                  <Radio.Group
+                    value={chiefComplaint.affectedEye}
+                    onChange={(e) => handleComplaintEyeChange(e.target.value)}
+                    className="flex items-center h-[42px]"
+                    optionType="button"
+buttonStyle="solid"
+                  >
+                    <Radio value="both">双眼</Radio>
+                    <Radio value="left">左眼</Radio>
+                    <Radio value="right">右眼</Radio>
+                  </Radio.Group>
                 </div>
                 
                 <div className={`grid ${chiefComplaint.affectedEye === 'both' ? 'grid-cols-2 gap-6' : 'grid-cols-1'}`}>
@@ -2386,7 +2038,7 @@ const App = () => {
                   )}
                 </div>
               </div>
-              <div className="mt-6 flex justify-between">
+              <div className="mt-2 flex justify-between">
                 <button 
                   onClick={handlePrevStep}
                   className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -2399,7 +2051,10 @@ const App = () => {
                 <button 
                   className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                 >
-                  完成问诊
+                  <div className="flex items-center">
+                    完成问诊
+                    <BotMessageSquare className="h-4 w-4 ml-1" />
+                  </div>
                 </button>
               </div>
             </section>
