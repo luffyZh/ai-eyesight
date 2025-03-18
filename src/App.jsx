@@ -7,6 +7,8 @@ import Logo from './assets/logo.png';
 import StepProgress from './components/steps';
 import EyeClinicDashboard from './components/dashboard';
 
+import './App.css';
+
 const steps = [{
   value: 1,
   label: '基本信息'
@@ -1113,7 +1115,7 @@ const App = () => {
                         onChange={(e) => handleComplaintEyeChange(e.target.value)}
                         className="flex items-center h-[42px]"
                         optionType="button"
-      buttonStyle="solid"
+                        buttonStyle="solid"
                       >
                         <Radio value="both">双眼</Radio>
                         <Radio value="left">左眼</Radio>
@@ -1682,12 +1684,21 @@ const App = () => {
                     <button 
                       className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
                     >
-                      <div className="flex items-center">
+                      <div className="flex items-center" onClick={handleNextStep}>
                         完成问诊
                         <BotMessageSquare className="h-4 w-4 ml-1" />
                       </div>
                     </button>
                   </div>
+                </section>
+              )}
+
+              {currentStep === 4 && (
+                <section className="bg-white rounded-lg shadow-sm p-6 overflow-auto flex-1 flex flex-col items-center justify-center">
+                  <div className='h-52'>
+                    <div className="loader"></div>
+                  </div>
+                  <h2 className="text-2xl font-semibold mt-8 ml-2">正在生成诊断报告...</h2>
                 </section>
               )}
             </main>
