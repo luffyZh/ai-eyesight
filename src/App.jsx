@@ -17,7 +17,7 @@ const steps = [{
   label: '医护问诊',
 }, {
   value: 3,
-  label: '眼科检查',
+  label: '患者主诉',
 }, {
   value: 4,
   label: 'AI 报告',
