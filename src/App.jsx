@@ -328,7 +328,7 @@ buttonStyle="solid"
                 {/* 病情信息 */}
                 <div className="mb-8 bg-white rounded-lg shadow-sm p-6">
                   <h3 className="text-lg font-medium text-teal-600 mb-4">病情信息</h3>
-                  <div className="grid grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-6">
                     <div>
                       <label className="block text-gray-700 mb-2">发病时间</label>
                       <div className="relative">
@@ -342,6 +342,20 @@ buttonStyle="solid"
                           <Calendar className="h-5 w-5 text-gray-400" />
                         </div>
                       </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-700 mb-2">是否有检查单</label>
+                      <Radio.Group
+                        value={medicalInquiry.hasExamReport}
+                        onChange={(e) => setMedicalInquiry({...medicalInquiry, hasExamReport: e.target.value})}
+                        className="flex items-center h-[42px]"
+                        optionType="button"
+                        buttonStyle="solid"
+                      >
+                        <Radio value="yes">是</Radio>
+                        <Radio value="no">否</Radio>
+                      </Radio.Group>
                     </div>
                     
                     <div>
@@ -369,20 +383,6 @@ buttonStyle="solid"
                         />
                       </div>
                     )}
-                    
-                    <div>
-                      <label className="block text-gray-700 mb-2">是否有检查单</label>
-                      <Radio.Group
-                        value={medicalInquiry.hasExamReport}
-                        onChange={(e) => setMedicalInquiry({...medicalInquiry, hasExamReport: e.target.value})}
-                        className="flex items-center h-[42px]"
-                        optionType="button"
-buttonStyle="solid"
-                      >
-                        <Radio value="yes">是</Radio>
-                        <Radio value="no">否</Radio>
-                      </Radio.Group>
-                    </div>
                   </div>
                 </div>
                 
@@ -472,7 +472,7 @@ buttonStyle="solid"
                           </Radio.Group>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-4 mb-3">
+                        <div className="grid grid-cols-3 gap-4 mb-3">
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼红</label>
                             <Radio.Group
@@ -689,7 +689,7 @@ buttonStyle="solid"
                           </div>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-4 mb-3">
+                        <div className="grid grid-cols-3 gap-4 mb-3">
                           <div>
                             <label className="block text-gray-700 mb-2">是否眼红</label>
                             <Radio.Group
@@ -705,7 +705,7 @@ buttonStyle="solid"
                               }}
                               className="flex items-center h-[42px]"
                               optionType="button"
-buttonStyle="solid"
+                              buttonStyle="solid"
                             >
                               <Radio value="yes">是</Radio>
                               <Radio value="no">否</Radio>
@@ -774,12 +774,12 @@ buttonStyle="solid"
                               buttonStyle="solid"
                             >
                               <Radio value="normal">视力正常</Radio>
-                              <Radio value="poor">视力较差</Radio>
+                              <Radio value="poor">视力下降</Radio>
                             </Radio.Group>
                           </div>
                         </div>
                         
-                        {medicalInquiry.rightEyeSymptoms.visionStatus === 'declined' && (
+                        {medicalInquiry.rightEyeSymptoms.visionStatus === 'poor' && (
                           <div className="grid grid-cols-2 gap-4 mb-3 bg-gray-50 p-3 rounded-md">
                             <div>
                               <label className="block text-gray-700 mb-2 text-sm">右眼原视力</label>
@@ -1169,365 +1169,176 @@ buttonStyle="solid"
                           </select>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-3 gap-4">
                           <div>
                             <label className="block text-gray-700 mb-2">分泌物</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeSecretion" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.secretion}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      secretion: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeSecretion" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.secretion}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      secretion: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.secretion ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  secretion: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">烧灼感</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeBurning" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.burning}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      burning: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeBurning" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.burning}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      burning: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.burning ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  burning: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">畏光</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyePhotophobia" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.photophobia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      photophobia: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyePhotophobia" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.photophobia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      photophobia: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.photophobia ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  photophobia: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">泪液减少</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeTearReduction" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.tearReduction}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      tearReduction: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeTearReduction" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.tearReduction}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      tearReduction: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.tearReduction ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  tearReduction: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">硬结和肿物</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeLumps" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.lumpsAndMasses}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      lumpsAndMasses: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">有</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeLumps" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.lumpsAndMasses}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      lumpsAndMasses: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">无</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.lumpsAndMasses ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  lumpsAndMasses: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">复视</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeDiplopia" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.diplopia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      diplopia: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeDiplopia" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.diplopia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      diplopia: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.diplopia ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  diplopia: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">夜盲</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeNightBlindness" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.nightBlindness}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      nightBlindness: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeNightBlindness" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.nightBlindness}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      nightBlindness: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.nightBlindness ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  nightBlindness: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">视力模糊</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeBlurredVision" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.blurredVision}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      blurredVision: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeBlurredVision" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.blurredVision}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      blurredVision: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.blurredVision ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  blurredVision: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">虹视</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeIridescence" 
-                                  value="yes"
-                                  checked={chiefComplaint.leftEyeSymptoms.iridescence}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      iridescence: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="leftEyeIridescence" 
-                                  value="no"
-                                  checked={!chiefComplaint.leftEyeSymptoms.iridescence}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    leftEyeSymptoms: {
-                                      ...chiefComplaint.leftEyeSymptoms,
-                                      iridescence: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.leftEyeSymptoms.iridescence ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                leftEyeSymptoms: {
+                                  ...chiefComplaint.leftEyeSymptoms,
+                                  iridescence: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                         </div>
                         
@@ -1631,365 +1442,176 @@ buttonStyle="solid"
                           </select>
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-3 gap-4">
                           <div>
                             <label className="block text-gray-700 mb-2">分泌物</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeSecretion" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.secretion}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      secretion: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeSecretion" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.secretion}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      secretion: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.secretion ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  secretion: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">烧灼感</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeBurning" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.burning}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      burning: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeBurning" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.burning}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      burning: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.burning ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  burning: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">畏光</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyePhotophobia" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.photophobia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      photophobia: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyePhotophobia" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.photophobia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      photophobia: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.photophobia ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  photophobia: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">泪液减少</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeTearReduction" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.tearReduction}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      tearReduction: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeTearReduction" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.tearReduction}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      tearReduction: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.tearReduction ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  tearReduction: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">硬结和肿物</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeLumps" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.lumpsAndMasses}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      lumpsAndMasses: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">有</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeLumps" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.lumpsAndMasses}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      lumpsAndMasses: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">无</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.lumpsAndMasses ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  lumpsAndMasses: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">复视</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeDiplopia" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.diplopia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      diplopia: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeDiplopia" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.diplopia}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      diplopia: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.diplopia ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  diplopia: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">夜盲</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeNightBlindness" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.nightBlindness}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      nightBlindness: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeNightBlindness" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.nightBlindness}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      nightBlindness: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.nightBlindness ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  nightBlindness: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">视力模糊</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeBlurredVision" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.blurredVision}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      blurredVision: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeBlurredVision" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.blurredVision}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      blurredVision: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.blurredVision ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  blurredVision: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                           
                           <div>
                             <label className="block text-gray-700 mb-2">虹视</label>
-                            <div className="flex space-x-4">
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeIridescence" 
-                                  value="yes"
-                                  checked={chiefComplaint.rightEyeSymptoms.iridescence}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      iridescence: true
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">是</span>
-                              </label>
-                              <label className="inline-flex items-center">
-                                <input 
-                                  type="radio" 
-                                  name="rightEyeIridescence" 
-                                  value="no"
-                                  checked={!chiefComplaint.rightEyeSymptoms.iridescence}
-                                  onChange={() => setChiefComplaint({
-                                    ...chiefComplaint,
-                                    rightEyeSymptoms: {
-                                      ...chiefComplaint.rightEyeSymptoms,
-                                      iridescence: false
-                                    }
-                                  })}
-                                  className="h-4 w-4 text-teal-600 focus:ring-teal-500" 
-                                />
-                                <span className="ml-2">否</span>
-                              </label>
-                            </div>
+                            <Radio.Group 
+                              value={chiefComplaint.rightEyeSymptoms.iridescence ? 'yes' : 'no'}
+                              onChange={(e) => setChiefComplaint({
+                                ...chiefComplaint,
+                                rightEyeSymptoms: {
+                                  ...chiefComplaint.rightEyeSymptoms,
+                                  iridescence: e.target.value
+                                }
+                              })}
+                              optionType='button'
+                              buttonStyle='solid'
+                            >
+                              <Radio value="yes">是</Radio>
+                              <Radio value="no">否</Radio>
+                            </Radio.Group>
                           </div>
                         </div>
                         
